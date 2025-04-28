@@ -23,12 +23,7 @@ app.post("/summary", async (req,res) => {
 
   
 
-  if (city){
-    sendMessage = [{ "role": "system", "content": `couple of sentences on ${city}` }]
-  }else{
-    sendMessage = [{ "role": "system", "content": `Please provide the following for area in latitude ${latitude} and longitude ${longitude}. These are the details that are needed: 
-Location, Nearest Town, Geographical Features, Land Use/Landscape, Recreational Opportunities, Nearest Larger Urban Center, Climate. One sentence for each.` }]
-  }
+
 
 
 
@@ -42,6 +37,13 @@ Location, Nearest Town, Geographical Features, Land Use/Landscape, Recreational 
   })
   
   try {
+    
+    if (city){
+      sendMessage = [{ "role": "system", "content": `a pragraph on ${city}. In the response, just give the sentences, do not include "Here are a couple of sentences on ${city}: " bit` }]
+    }else{
+      sendMessage = [{ "role": "system", "content": `Please provide the following for area in latitude ${latitude} and longitude ${longitude}. These are the details that are needed: 
+  Location, Nearest Town, Geographical Features, Land Use/Landscape, Recreational Opportunities, Nearest Larger Urban Center, Climate. One sentence for each. Please use period at the end of each sentence. Please, just provide the requested infromation, not other added text or comment.` }]
+    }
   
     const completion = await openai.chat.completions.create({
       model: "nvidia/llama-3.3-nemotron-super-49b-v1",
